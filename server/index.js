@@ -14,9 +14,13 @@ app.use(notFound);
 
 app.use(errorHandler);
 
-const connect = async() => {
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log("Connected to mongoDB!");
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("Connected to mongoDB!");
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+  }
 };
 
 app.listen(process.env.PORT, () => {
