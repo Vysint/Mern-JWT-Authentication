@@ -6,6 +6,10 @@ const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 dotenv.config();
 
 app.use("/api/users", userRoutes);
