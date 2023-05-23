@@ -3,11 +3,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 dotenv.config();
 
 app.use("/api/users", userRoutes);
+
+app.use(notFound);
+
+app.use(errorHandler);
 
 const connect = () => {
   mongoose.connect(process.env.MONGO_URL);
