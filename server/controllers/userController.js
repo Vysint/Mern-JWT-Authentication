@@ -8,8 +8,26 @@ const verifyToken = require("../utils/jwt");
 // route   POST /api/users/auth
 // @access Public
 
-exports.authUser = async (req, res) => {
-  res.status(200).json({ message: "Auth User" });
+exports.authUser = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) return next(createError(404, "User not found!"));
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) return next(createError(404, "Wrong password!"));
+    
+    verifyToken(res, user._id);
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 // @desc   Register a new user
 // route   POST /api/users
@@ -49,20 +67,20 @@ exports.registerUser = async (req, res, next) => {
 // route   POST /api/users/logout
 // @access Public
 
-exports.logoutUser = async (req, res) => {
+exports.logoutUser = async (req, res, next) => {
   res.status(200).json({ message: "Logout User" });
 };
 // @desc   GET user profile
 // route   GET /api/users/profile
 // @access private
 
-exports.getUserProfile = async (req, res) => {
+exports.getUserProfile = async (req, res, next) => {
   res.status(200).json({ message: "User Profile" });
 };
 // @desc   Update user profile
 // route   PUT /api/users/profile
 // @access private
 
-exports.updateUserProfile = async (req, res) => {
+exports.updateUserProfile = async (req, res, next) => {
   res.status(200).json({ message: "User Profile updated!" });
 };
