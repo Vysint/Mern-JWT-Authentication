@@ -98,16 +98,16 @@ exports.updateUserProfile = async (req, res, next) => {
     user.email = req.body.email || user.email;
 
     if (req.body.password) {
-      user.password = req.body.password;
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      user.password = hashedPassword;
     }
     const updatedUser = await user.save();
-    res
-      .status(200)
-      .json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-      });
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+    });
   } else {
     return next(createError(404, "User not found"));
   }
