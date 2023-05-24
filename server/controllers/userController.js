@@ -18,7 +18,7 @@ exports.authUser = async (req, res, next) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) return next(createError(404, "Wrong password!"));
-    
+
     verifyToken(res, user._id);
     res.status(200).json({
       _id: user._id,
@@ -68,7 +68,11 @@ exports.registerUser = async (req, res, next) => {
 // @access Public
 
 exports.logoutUser = async (req, res, next) => {
-  res.status(200).json({ message: "Logout User" });
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "User logged out" });
 };
 // @desc   GET user profile
 // route   GET /api/users/profile
