@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 
 const createError = require("../utils/createError");
 const User = require("../models/userModel");
+const verifyToken = require("../utils/jwt");
 
 // @desc   Auth user/set token
 // route   POST /api/users/auth
@@ -33,18 +34,15 @@ exports.registerUser = async (req, res, next) => {
       password: hashedPassword,
     });
     const savedUser = await newUser.save();
-    res
-      .status(201)
-      .json({
-        _id: savedUser._id,
-        name: savedUser.name,
-        email: savedUser.email,
-      });
+    verifyToken(res, savedUser._id);
+    res.status(201).json({
+      _id: savedUser._id,
+      name: savedUser.name,
+      email: savedUser.email,
+    });
   } catch (err) {
     next(err);
   }
-
-  res.status(200).json({ message: "Register User" });
 };
 
 // @desc   Logout a user
