@@ -16,13 +16,13 @@ const Header = () => {
         <div className="navItems">
           <ul className="menu">
             <li>
-              <Link to="/" className="link item">
+              <Link to="/login" className="link item">
                 <FaSignInAlt />
                 <span>Sign In</span>
               </Link>
             </li>
             <li>
-              <Link to="/" className="link item">
+              <Link to="/register" className="link item">
                 <FaSignOutAlt />
                 <span>Sign Up</span>
               </Link>
