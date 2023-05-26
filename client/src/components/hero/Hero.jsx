@@ -1,20 +1,25 @@
 import { Link } from "react-router-dom";
+import "./Hero.css";
 const Hero = () => {
   return (
     <div className="hero">
       <div className="container">
         <div className="card">
-          <h1>MERN Authentication</h1>
+          <h2>MERN Authentication</h2>
           <p>
             This is a boilerplate for MERN authentication that stores a JWT in
             an HTTP-Only cookie. It also uses Redux Toolkit to Manage state.
           </p>
           <div className="hero-items">
             <button>
-              <Link to="/login">Sign In</Link>
+              <Link to="/login" className="link one">
+                Sign In
+              </Link>
             </button>
             <button>
-              <Link to="/register">Register</Link>
+              <Link to="/register" className="link two">
+                  Sign Up
+              </Link>
             </button>
           </div>
         </div>
