@@ -7,13 +7,15 @@ import {
   createBrowserRouter,
   Route,
 } from "react-router-dom";
-import Homescreen from "./screens/Homescreen.jsx";
+import Homescreen from "./screens/homescreen/Homescreen.jsx";
 import "./index.css";
+import LoginScreen from "./screens/Loginscreen/LoginScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<Homescreen />} />
+      <Route path="/login" element={<LoginScreen />} />
     </Route>
   )
 );
