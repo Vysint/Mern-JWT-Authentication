@@ -31,6 +31,7 @@
 .button-submit {
   padding: 5px 10px;
   color: #fff;
+  cursor: pointer;
 }
 .register {
   padding-top: 10px;
