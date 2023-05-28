@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FormContainer from "../../components/formInput/FormContainer";
+// import FormContainer from "../../components/formInput/FormContainer";
 import { Link } from "react-router-dom";
 
 import "./LoginScreen.css";
@@ -13,7 +13,7 @@ const LoginScreen = () => {
     console.log("submit");
   };
   return (
-    <FormContainer>
+    <div className="formInputs">
       <h1>Sign In</h1>
       <form onSubmit={submitHandler}>
         <div className="inputs">
@@ -25,8 +25,6 @@ const LoginScreen = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
-        <div className="inputs">
           <label>Password</label>
           <input
             type="password"
@@ -36,15 +34,20 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" style={{ background: "rgb(56, 118, 241)" }}>
+
+        <button
+          type="submit"
+          className="button-submit"
+          style={{ background: "rgb(56, 118, 241)" }}
+        >
           Sign In
         </button>
         <div className="register">
           <span>New Customer?</span>
-          <Link to="/register">Register</Link>
+          <Link to="/register" className="registerLink">Register</Link>
         </div>
       </form>
-    </FormContainer>
+    </div>
   );
 };
 

@@ -1,0 +1,40 @@
+.formInputs {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  border: 2px solid rgb(221, 221, 221);
+  width: 35%;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.formInputs > h1 {
+  padding-top: 10px;
+  font-weight: 500;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.inputs > label {
+  font-size: 20px;
+  padding: 10px 0;
+}
+.inputs > input {
+  padding: 5px;
+  border: 2px solid rgb(221, 221, 221);
+  border-radius: 5px;
+  outline: none;
+}
+.button-submit {
+  padding: 5px 10px;
+  color: #fff;
+}
+.register {
+  padding-top: 10px;
+}
+.registerLink {
+  color: rgb(56, 118, 241);
+}
