@@ -13,11 +13,12 @@ exports.authUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) return next(createError(404, "User not found!"));
+    if (!user) return res.status(401).json({ message: "user not found!" });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) return next(createError(404, "Wrong password!"));
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Wrong Password!" });
 
     verifyToken(res, user._id);
     res.status(200).json({
@@ -29,6 +30,7 @@ exports.authUser = async (req, res, next) => {
     next(err);
   }
 };
+
 // @desc   Register a new user
 // route   POST /api/users
 // @access Public
