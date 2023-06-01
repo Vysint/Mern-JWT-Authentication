@@ -17,12 +17,39 @@
 li {
   list-style: none;
 }
-.link{
+.link {
   text-decoration: none;
   color: #fff;
 }
-.item{
+.item {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.menu > img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 65px;
+  gap: 5px;
+  border: 2px solid rgb(192, 191, 191);
+  padding: 10px 30px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 6px #b4b3b3;
+}
+.menu.dropdown.inactive {
+  display: none;
+}
+.userLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: black;
 }
