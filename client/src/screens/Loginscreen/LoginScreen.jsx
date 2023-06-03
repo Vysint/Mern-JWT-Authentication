@@ -57,6 +57,7 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {isLoading && <h2>Loading...</h2>}
 
         <button
           type="submit"
