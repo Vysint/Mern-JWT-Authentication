@@ -43,7 +43,8 @@ exports.registerUser = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-  if (existingUser) return next(createError(404, "User already exists!"));
+  if (existingUser)
+    return res.status(401).json({ message: "User already exists" });
 
   try {
     const salt = await bcrypt.genSalt(12);
