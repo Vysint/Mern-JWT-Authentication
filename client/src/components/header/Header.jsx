@@ -1,14 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { clearCredentials } from "../../slices/authSlice";
 import Vincent from "../../assets/Langat.jpeg";
 
 import "./Header.css";
 import { useState } from "react";
 
 const Header = () => {
-  const userInfo = useSelector((state) => state.auth);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const [logout] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(clearCredentials());
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="navbar">
@@ -23,7 +39,7 @@ const Header = () => {
           {userInfo ? (
             <div className="menu-container">
               <div className="menu">
-                <span className="link item">{userInfo.userInfo.name}</span>
+                <span className="link item">{userInfo.name}</span>
                 <img src={Vincent} onClick={() => setOpen(!open)} />
               </div>
               <div className={`menu dropdown ${open ? "active" : "inactive"}`}>
@@ -34,7 +50,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/logout" className="userLink">
+                  <Link
+                    to="/logout"
+                    className="userLink"
+                    onClick={logoutHandler}
+                  >
                     <FaSignOutAlt />
                     <span>Logout</span>
                   </Link>
