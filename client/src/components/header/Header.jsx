@@ -9,7 +9,7 @@ import "./Header.css";
 import { useState } from "react";
 
 const Header = () => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -46,7 +46,7 @@ const Header = () => {
                 <li>
                   <Link to="/profile" className="userLink">
                     <FaUserAlt />
-                    <span>Profile</span>
+                    <span onClick={() => setOpen(!open)}>Profile</span>
                   </Link>
                 </li>
                 <li>
