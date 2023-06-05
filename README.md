@@ -43,3 +43,9 @@ npm run dev
 #Run backend only
 npm run server
 ```
+# Build and Deploy
+```
+#Create client/frontend prod build
+cd client
+npm run build
+```
