@@ -14,4 +14,4 @@ It includes the following:
 - React Toastify notifications
 
 #Usage
-***
+---
