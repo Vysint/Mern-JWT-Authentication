@@ -14,7 +14,6 @@ It includes the following:
 - React Toastify notifications
 
 # Usage
----
 - Create a MongoDB database and obtain your `MongoDB URI`-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 
 # Env Variables
