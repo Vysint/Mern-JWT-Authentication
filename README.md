@@ -12,3 +12,6 @@ It includes the following:
 - Custom error middleware
 - React frontend to register/signup, login,logout, view Profile and update Profile
 - React Toastify notifications
+
+#Usage
+***
