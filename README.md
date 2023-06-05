@@ -15,7 +15,7 @@ It includes the following:
 
 #Usage
 ---
-- Create a MongoDB database and obtain your MongoDB URI-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+- Create a MongoDB database and obtain your `MongoDB URI`-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 
 #Env Variables
 Rename the `.env.example` file to `.env` and add the following
