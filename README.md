@@ -26,3 +26,11 @@ PORT=5000
 MONGO_URI=your mongodb uri
 JWT_SECRET='abc123'
 ```
+Change the `JWT_SECRET` to what you want
+
+### Install Dependencies (client/frontend and server/backend)
+```
+npm install
+cd client
+npm install
+```
