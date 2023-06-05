@@ -13,11 +13,11 @@ It includes the following:
 - React frontend to register/signup, login,logout, view Profile and update Profile
 - React Toastify notifications
 
-#Usage
+# Usage
 ---
 - Create a MongoDB database and obtain your `MongoDB URI`-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 
-#Env Variables
+# Env Variables
 Rename the `.env.example` file to `.env` and add the following
 
 ```
