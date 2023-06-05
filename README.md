@@ -33,3 +33,13 @@ npm install
 cd client
 npm install
 ```
+
+#### Run
+
+```
+#Run client (:3000) & server (:5000)
+npm run dev
+
+#Run backend only
+npm run server
+```
