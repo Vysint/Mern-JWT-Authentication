@@ -29,8 +29,8 @@ Change the `JWT_SECRET` to what you want
 
 ### Install Dependencies (client/frontend and server/backend)
 ```
+cd client/frontend
 npm install
-cd client
 npm install
 ```
 
