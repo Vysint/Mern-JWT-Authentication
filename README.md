@@ -37,7 +37,7 @@ npm install
 #### Run
 
 ```
-#Run client (:3000) & server (:5000)
+#Run client/frontend (:3000) & server/backend (:5000)
 npm run dev
 
 #Run backend only
