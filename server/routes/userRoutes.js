@@ -1,5 +1,7 @@
 const express = require("express");
 
+const { check } = require("express-validator");
+
 const {
   authUser,
   logoutUser,
@@ -12,12 +14,35 @@ const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/", registerUser);
+router.post(
+  "/",
+  [
+    check("name").not().isEmpty(),
+    check("email").normalizeEmail().isEmail(),
+    check("password").isLength({ min: 6 }),
+  ],
+  registerUser
+);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
-router
-  .route("/profile")
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+
+router.get(
+  "/profile",
+  [
+    check("name").not().isEmpty(),
+    check("email").normalizeEmail().isEmail(),
+    check("password").isLength({ min: 6 }),
+  ],
+  getUserProfile
+);
+router.put(
+  "/profile",
+  [
+    check("name").not().isEmpty(),
+    check("email").normalizeEmail().isEmail(),
+    check("password").isLength({ min: 6 }),
+  ],
+  updateUserProfile
+);
 
 module.exports = router;

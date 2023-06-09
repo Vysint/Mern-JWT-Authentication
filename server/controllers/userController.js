@@ -1,35 +1,7 @@
 const bcrypt = require("bcryptjs");
 
-const createError = require("../utils/createError");
 const User = require("../models/userModel");
 const verifyToken = require("../utils/jwt");
-
-// @desc   Auth user/set token
-// route   POST /api/users/auth
-// @access Public
-
-exports.authUser = async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) return res.status(401).json({ message: "user not found!" });
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid)
-      return res.status(401).json({ message: "Wrong Password!" });
-
-    verifyToken(res, user._id);
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
 
 // @desc   Register a new user
 // route   POST /api/users
@@ -40,11 +12,13 @@ exports.registerUser = async (req, res, next) => {
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.status(401);
+      throw new Error("User already exists, sign in instead.");
+    }
   } catch (err) {
-    next(err);
+    return next(err);
   }
-  if (existingUser)
-    return res.status(401).json({ message: "User already exists" });
 
   try {
     const salt = await bcrypt.genSalt(12);
@@ -62,7 +36,39 @@ exports.registerUser = async (req, res, next) => {
       email: savedUser.email,
     });
   } catch (err) {
-    next(err);
+    return next(err);
+  }
+};
+
+// @desc   Auth user/set token
+// route   POST /api/users/auth
+// @access Public
+
+exports.authUser = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(401);
+      throw new Error("User not found");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      res.status(401);
+      throw new Error("Wrong Password!");
+    }
+
+    verifyToken(res, user._id);
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    return next(err);
   }
 };
 
@@ -95,23 +101,47 @@ exports.getUserProfile = async (req, res, next) => {
 // @access private
 
 exports.updateUserProfile = async (req, res, next) => {
-  const user = await User.findById(req.user._id);
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
+  try {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
 
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      user.password = hashedPassword;
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        user.password = hashedPassword;
+      }
+      const updatedUser = await user.save();
+      res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404);
+      throw new Error("User not found");
     }
-    const updatedUser = await user.save();
-    res.status(200).json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-    });
-  } else {
-    return next(createError(404, "User not found"));
+  } catch (err) {
+    return next(err);
   }
+  // const user = await User.findById(req.user._id);
+  // if (user) {
+  //   user.name = req.body.name || user.name;
+  //   user.email = req.body.email || user.email;
+
+  //   if (req.body.password) {
+  //     const salt = await bcrypt.genSalt(12);
+  //     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  //     user.password = hashedPassword;
+  //   }
+  //   const updatedUser = await user.save();
+  //   res.status(200).json({
+  //     _id: updatedUser._id,
+  //     name: updatedUser.name,
+  //     email: updatedUser.email,
+  //   });
+  // } else {
+  //   return res.status(404).json({ message: "User not found" });
+  // }
 };
