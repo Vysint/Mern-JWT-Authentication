@@ -3,6 +3,42 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const verifyToken = require("../utils/jwt");
 
+// @desc   Auth user/set token
+// route   POST /api/users/auth
+// @access Public
+
+exports.authUser = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(401);
+      throw new Error("User not found");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      res.status(401);
+      throw new Error("Wrong Password!");
+    }
+
+    verifyToken(res, user._id);
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// @desc   Logout a user
+// route   POST /api/users/logout
+// @access Public
+
 // @desc   Register a new user
 // route   POST /api/users
 // @access Public
@@ -40,42 +76,6 @@ exports.registerUser = async (req, res, next) => {
   }
 };
 
-// @desc   Auth user/set token
-// route   POST /api/users/auth
-// @access Public
-
-exports.authUser = async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      res.status(401);
-      throw new Error("User not found");
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      res.status(401);
-      throw new Error("Wrong Password!");
-    }
-
-    verifyToken(res, user._id);
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } catch (err) {
-    return next(err);
-  }
-};
-
-// @desc   Logout a user
-// route   POST /api/users/logout
-// @access Public
-
 exports.logoutUser = async (req, res, next) => {
   res.cookie("jwt", "", {
     httpOnly: true,
@@ -103,10 +103,10 @@ exports.getUserProfile = async (req, res, next) => {
 exports.updateUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
 
+    if (user) {
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
       if (req.body.password) {
         const salt = await bcrypt.genSalt(12);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -118,13 +118,14 @@ exports.updateUserProfile = async (req, res, next) => {
         name: updatedUser.name,
         email: updatedUser.email,
       });
-    } else {
+    }else {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("User not found")
     }
   } catch (err) {
     return next(err);
   }
+};
   // const user = await User.findById(req.user._id);
   // if (user) {
   //   user.name = req.body.name || user.name;
@@ -144,4 +145,4 @@ exports.updateUserProfile = async (req, res, next) => {
   // } else {
   //   return res.status(404).json({ message: "User not found" });
   // }
-};
+

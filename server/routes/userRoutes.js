@@ -33,6 +33,7 @@ router.get(
     check("email").normalizeEmail().isEmail(),
     check("password").isLength({ min: 6 }),
   ],
+  protect,
   getUserProfile
 );
 router.put(
@@ -42,6 +43,7 @@ router.put(
     check("email").normalizeEmail().isEmail(),
     check("password").isLength({ min: 6 }),
   ],
+  protect,
   updateUserProfile
 );
 
