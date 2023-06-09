@@ -35,10 +35,6 @@ exports.authUser = async (req, res, next) => {
   }
 };
 
-// @desc   Logout a user
-// route   POST /api/users/logout
-// @access Public
-
 // @desc   Register a new user
 // route   POST /api/users
 // @access Public
@@ -76,6 +72,10 @@ exports.registerUser = async (req, res, next) => {
   }
 };
 
+// @desc   Logout a user
+// route   POST /api/users/logout
+// @access Public
+
 exports.logoutUser = async (req, res, next) => {
   res.cookie("jwt", "", {
     httpOnly: true,
@@ -105,8 +105,8 @@ exports.updateUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
-      user.name = req.body.name || user.name
-      user.email = req.body.email || user.email
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
       if (req.body.password) {
         const salt = await bcrypt.genSalt(12);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -118,31 +118,11 @@ exports.updateUserProfile = async (req, res, next) => {
         name: updatedUser.name,
         email: updatedUser.email,
       });
-    }else {
+    } else {
       res.status(404);
-      throw new Error("User not found")
+      throw new Error("User not found");
     }
   } catch (err) {
     return next(err);
   }
 };
-  // const user = await User.findById(req.user._id);
-  // if (user) {
-  //   user.name = req.body.name || user.name;
-  //   user.email = req.body.email || user.email;
-
-  //   if (req.body.password) {
-  //     const salt = await bcrypt.genSalt(12);
-  //     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  //     user.password = hashedPassword;
-  //   }
-  //   const updatedUser = await user.save();
-  //   res.status(200).json({
-  //     _id: updatedUser._id,
-  //     name: updatedUser.name,
-  //     email: updatedUser.email,
-  //   });
-  // } else {
-  //   return res.status(404).json({ message: "User not found" });
-  // }
-
