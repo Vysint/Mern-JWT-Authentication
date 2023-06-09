@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
@@ -16,12 +17,9 @@ dotenv.config();
 
 app.use("/api/users", userRoutes);
 
-app.use((err, req, res, next) => {
-  const errorStatus = err.status || 500;
-  const errorMessage = err.message || "Something went wrong!";
+app.use(notFound);
 
-  return res.status(errorStatus).send(errorMessage);
-});
+app.use(errorHandler);
 
 const connect = async () => {
   try {
