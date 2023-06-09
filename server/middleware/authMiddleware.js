@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/userModel");
-const createError = require("../utils/createError");
 
 const protect = async (req, res, next) => {
   let token = req.cookies.jwt;
@@ -21,10 +20,12 @@ const protect = async (req, res, next) => {
       req.user = await User.findById(decoded.userId).select("-password");
       next();
     } catch (err) {
-      return next(createError(401, "Not authorized, token failed!"));
+      res.status(401);
+      throw new Error("Not authorized, token failed");
     }
   } else {
-    return next(createError(401, "Not authorized, no token"));
+    res.status(401);
+    throw new Error("Not authorized, no token");
   }
 };
 
