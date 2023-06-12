@@ -31,7 +31,6 @@ Change the `JWT_SECRET` to what you want
 ```
 cd client/frontend
 npm install
-npm install
 ```
 
 #### Run
