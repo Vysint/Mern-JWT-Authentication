@@ -23,7 +23,7 @@ Rename the `.env.example` file to `.env` and add the following
 NODE_ENV = development
 PORT=5000
 MONGO_URI=your mongodb uri
-JWT_SECRET='abc123'
+JWT_SECRET='yoursecretkey'
 ```
 Change the `JWT_SECRET` to what you want
 
