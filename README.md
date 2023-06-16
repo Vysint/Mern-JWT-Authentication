@@ -11,7 +11,6 @@ It includes the following:
 - Custom middleware to check JSON web token and store in cookie
 - Custom error middleware
 - React frontend to register/signup, login,logout, view Profile and update Profile
-- React Toastify notifications
 
 # Usage
 - Create a MongoDB database and obtain your `MongoDB URI`-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
