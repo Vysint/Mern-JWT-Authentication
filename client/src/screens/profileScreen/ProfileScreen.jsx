@@ -16,8 +16,7 @@ const ProfileScreen = () => {
 
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const [updateProfile, { isLoading, isError, isSuccess }] =
-    useUpdateUserMutation();
+  const [updateProfile, { isLoading, isSuccess }] = useUpdateUserMutation();
 
   useEffect(() => {
     setName(userInfo.name);
@@ -82,9 +81,7 @@ const ProfileScreen = () => {
           />
         </div>
         {isLoading && <h3>Loading...</h3>}
-        {isError && (
-          <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
-        )}
+        {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
         {isSuccess && (
           <p style={{ color: "red", marginBottom: "10px" }}>{success}</p>
         )}

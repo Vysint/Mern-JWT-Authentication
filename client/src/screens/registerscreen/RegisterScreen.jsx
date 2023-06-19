@@ -18,7 +18,7 @@ const RegisterScreen = () => {
 
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const [register, { isLoading, isError }] = useRegisterMutation();
+  const [register, { isLoading}] = useRegisterMutation();
 
   useEffect(() => {
     if (userInfo) {
@@ -79,9 +79,9 @@ const RegisterScreen = () => {
           />
         </div>
         {isLoading && <h3>Loading...</h3>}
-        {isError && (
-          <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
-        )}
+      {error && (
+        <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+      )}
         <button
           type="submit"
           className="button-submit"
