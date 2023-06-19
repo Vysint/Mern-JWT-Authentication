@@ -11,11 +11,12 @@ import "./LoginScreen.css";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, isError }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -32,7 +33,7 @@ const LoginScreen = () => {
       dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      setError(err?.data?.message || err.error);
     }
   };
   return (
@@ -58,6 +59,9 @@ const LoginScreen = () => {
           />
         </div>
         {isLoading && <h2>Loading...</h2>}
+        {isError && (
+          <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+        )}
 
         <button
           type="submit"
