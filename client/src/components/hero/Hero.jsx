@@ -12,18 +12,28 @@ const Hero = () => {
           This is a boilerplate for MERN authentication that stores a JWT in an
           HTTP-Only cookie. It also uses Redux Toolkit to Manage state.
         </p>
-        <div className="hero-items">
-          <button>
-            <Link to="/login" className="link one">
-              Sign In
-            </Link>
-          </button>
-          <button>
-            <Link to="/register" className="link two">
-              Sign Up
-            </Link>
-          </button>
-        </div>
+        {userInfo ? (
+          <div className="hero-items">
+            <button style={{ background: "rgb(56, 118, 241)" }}>
+              <Link to="/profile" className="link">
+                Profile
+              </Link>
+            </button>
+          </div>
+        ) : (
+          <div className="hero-items">
+            <button>
+              <Link to="/login" className="link one">
+                Sign In
+              </Link>
+            </button>
+            <button>
+              <Link to="/register" className="link two">
+                Sign Up
+              </Link>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

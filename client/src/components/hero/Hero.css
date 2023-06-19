@@ -25,10 +25,12 @@
   gap: 20px;
   padding-top: 10px;
 }
+
 .link {
   text-decoration: none;
   color: #fff;
 }
+
 button {
   padding: 8px 10px;
   border: none;
