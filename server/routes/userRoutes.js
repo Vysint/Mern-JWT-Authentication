@@ -26,16 +26,7 @@ router.post(
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 
-router.get(
-  "/profile",
-  [
-    check("name").not().isEmpty(),
-    check("email").normalizeEmail().isEmail(),
-    check("password").isLength({ min: 6 }),
-  ],
-  protect,
-  getUserProfile
-);
+router.get("/profile", protect, getUserProfile);
 router.put(
   "/profile",
   [

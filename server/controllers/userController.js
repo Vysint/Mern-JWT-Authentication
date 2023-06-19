@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const User = require("../models/userModel");
 const verifyToken = require("../utils/jwt");
@@ -40,6 +41,16 @@ exports.authUser = async (req, res, next) => {
 // @access Public
 
 exports.registerUser = async (req, res, next) => {
+  const errors = validationResult(req);
+  try {
+    if (!errors.isEmpty()) {
+      res.status(422);
+      throw new Error("Invalid inputs passed, please check your data.");
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   const { name, email, password } = req.body;
   let existingUser;
   try {
@@ -101,6 +112,16 @@ exports.getUserProfile = async (req, res, next) => {
 // @access private
 
 exports.updateUserProfile = async (req, res, next) => {
+  const errors = validationResult(req);
+  try {
+    if (!errors.isEmpty()) {
+      res.status(422);
+      throw new Error("Invalid inputs passed, please check your data.");
+    }
+  } catch (err) {
+    return next(err);
+  }
+
   try {
     const user = await User.findById(req.user._id);
 

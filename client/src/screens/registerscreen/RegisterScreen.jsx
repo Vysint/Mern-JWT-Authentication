@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { useRegisterMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
 import "./Registerscreen.css";
@@ -12,12 +11,14 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [error, setError] = useState(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, isError }] = useRegisterMutation();
 
   useEffect(() => {
     if (userInfo) {
@@ -28,14 +29,14 @@ const RegisterScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      setError("Passwords do not match");
     } else {
       try {
         const res = await register({ name, email, password }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate("/");
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        setError(err?.data?.message || err.error);
       }
     }
   };
@@ -77,7 +78,10 @@ const RegisterScreen = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        {isLoading && <h1>Loading...</h1>}
+        {isLoading && <h3>Loading...</h3>}
+        {isError && (
+          <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+        )}
         <button
           type="submit"
           className="button-submit"

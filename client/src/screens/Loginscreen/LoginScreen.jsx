@@ -56,7 +56,7 @@ const LoginScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {isLoading && <h2>Loading...</h2>}
+        {isLoading && <h3>Loading...</h3>}
         {isError && (
           <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
         )}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { useUpdateUserMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
 
@@ -10,11 +9,15 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const [updateProfile, { isLoading }] = useUpdateUserMutation();
+  const [updateProfile, { isLoading, isError, isSuccess }] =
+    useUpdateUserMutation();
 
   useEffect(() => {
     setName(userInfo.name);
@@ -24,7 +27,7 @@ const ProfileScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      setError("Passwords do not match");
     } else {
       try {
         const res = await updateProfile({
@@ -34,9 +37,9 @@ const ProfileScreen = () => {
           password,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
-        toast.success("Profile Updated");
+        setSuccess("Profile Updated");
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        setError(err?.data?.message || err.error);
       }
     }
   };
@@ -78,8 +81,13 @@ const ProfileScreen = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        {isLoading && <h1>Loading...</h1>}
-
+        {isLoading && <h3>Loading...</h3>}
+        {isError && (
+          <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
+        )}
+        {isSuccess && (
+          <p style={{ color: "red", marginBottom: "10px" }}>{success}</p>
+        )}
         <button
           type="submit"
           className="button-submit"
