@@ -1,12 +1,12 @@
-.hero {
+.hero-container {
   background: rgb(241, 239, 239);
   margin: 20px auto;
   width: 60%;
   border-radius: 7px;
   border: 2px solid rgb(213, 210, 210);
 }
-.container {
-  padding: 30px 50px;
+.card {
+  padding: 30px;
 }
 .card > h2 {
   font-weight: 500;
@@ -29,15 +29,14 @@
   text-decoration: none;
   color: #fff;
 }
-button{
+button {
   padding: 8px 10px;
   border: none;
-  border-radius: 5px
+  border-radius: 5px;
 }
-button:first-child{
+button:first-child {
   background: rgb(56, 118, 241);
 }
-button:last-of-type{
+button:last-of-type {
   background: rgb(95, 95, 95);
 }
-
